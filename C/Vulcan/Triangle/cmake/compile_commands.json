@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/msantana/Development/C/Vulcan/Test4/cmake",
+  "command": "/usr/bin/c++  -I/home/msantana/Development/C/Vulcan/Test4/{CMAKE_SOURCE_DIR}/include  -o CMakeFiles/my_app.dir/src/main.cpp.o -c /home/msantana/Development/C/Vulcan/Test4/src/main.cpp",
+  "file": "/home/msantana/Development/C/Vulcan/Test4/src/main.cpp",
+  "output": "CMakeFiles/my_app.dir/src/main.cpp.o"
+}
+]
