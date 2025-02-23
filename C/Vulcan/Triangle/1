@@ -124,12 +124,9 @@ private:
     //--------------------
     void initWindow() {
         glfwInit();
-    
-        //GLFWmonitor* my_primary_monitor = glfwGetPrimaryMonitor();  //doesn't get primary monitor, gets monitor on lowest port
-        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);       // Don't create an OpenGL context, which the library was supposed to be doing originally as that what it was designed for
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
 
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
         window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
     }
@@ -272,27 +269,23 @@ private:
         std::vector<VkPhysicalDevice> devices(deviceCount);
         vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
-
-        bool my_multi_gpu_check = false;
-        int my_gpu_id = 1;
-        if (deviceCount > 1) {
-            my_gpu_id = 2;
-            std::cout << "Secondary GPU detected, attempting to use it. \n";
-        }
-
+        
         int i = 1;
 
         for (const auto& device : devices) {
             
             std::cout << "Device Number: " << i << "\n";
 
-            if (isDeviceSuitable(device) && my_gpu_id == i ) {
+            if (isDeviceSuitable(device) && i != 1 ) {
                 physicalDevice = device;
                 break;
             }
 
-            i++;
+            i = i + 1;
         }
+
+
+
 
 
         if (physicalDevice == VK_NULL_HANDLE) {
@@ -318,10 +311,6 @@ private:
         }
 
         VkPhysicalDeviceFeatures deviceFeatures{};
-        std::cout << "Enabling extra features needed in Physical Device \n";
-        deviceFeatures.fillModeNonSolid = VK_TRUE;          // Enable wireframe and point rendering
-        deviceFeatures.wideLines = VK_TRUE;                 // Enable lines wider than 1.0
-
 
         VkDeviceCreateInfo createInfo{};
         createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -567,8 +556,7 @@ private:
 
         createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
 
-        //createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR; //Alpha component is always 1.0
-        createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR;
+        createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
 
         createInfo.presentMode = presentMode;
         createInfo.clipped = VK_TRUE;
@@ -658,15 +646,8 @@ private:
         rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
         rasterizer.depthClampEnable = VK_FALSE;
         rasterizer.rasterizerDiscardEnable = VK_FALSE;
-
         rasterizer.polygonMode = VK_POLYGON_MODE_FILL;
-        //rasterizer.polygonMode = VK_POLYGON_MODE_LINE;  // wireframe mode
-        //rasterizer.polygonMode = VK_POLYGON_MODE_POINT;
-
         rasterizer.lineWidth = 1.0f;
-        //rasterizer.lineWidth = 20.0f;
-
-
         rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
         rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
         rasterizer.depthBiasEnable = VK_FALSE;
@@ -869,7 +850,7 @@ private:
         renderPassInfo.renderArea.offset = {0, 0};
         renderPassInfo.renderArea.extent = swapChainExtent;
 
-        VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 0.0f}}};
+        VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 1.0f}}};
         renderPassInfo.clearValueCount = 1;
         renderPassInfo.pClearValues = &clearColor;
 
