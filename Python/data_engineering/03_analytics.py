@@ -24,10 +24,10 @@ my_nonzero_check = (my_data['transaction_amount'] > 0).all()
 print(f'Checking if all transactions are non-zero: {my_nonzero_check}')
 
 
-
 #########################
 # Calculating Metrics   #
 #########################
+
 # Group by Date and Sum transactions per date
 print('### Calculating Transactions per Day ###')
 my_summary_date = my_data['transaction_amount'].groupby([my_data['transaction_time'].dt.date]).sum() # Get stotals per day
@@ -37,6 +37,7 @@ my_summary_date.index = pd.to_datetime(my_summary_date.index) # transform groupe
 print('### Calculating 3-Day Window Averages ###')
 my_rolling_averages = my_summary_date.rolling(window=3).mean() # Do 3 day rolling window mean
 my_rolling_averages.index = pd.to_datetime(my_rolling_averages.index) # transform grouped dates to date types
+
 
 #########################
 # Exporting Output file #
