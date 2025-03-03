@@ -19,6 +19,11 @@ except:
 # Data Quality Checks   #
 #########################
 
+print('### Data Quality Checks ###')
+my_nonzero_check = (my_data['transaction_amount'] > 0).all()
+print(f'Checking if all transactions are non-zero: {my_nonzero_check}')
+
+
 
 #########################
 # Calculating Metrics   #
