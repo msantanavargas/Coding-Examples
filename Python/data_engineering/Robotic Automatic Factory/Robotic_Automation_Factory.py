@@ -1,18 +1,21 @@
 def sort(width, height, length, mass):
     # Unit Tests
+    # Value
     assert width > 0 , 'Width should be greater than 0'
     assert height > 0, 'Height should be greater than 0'
     assert length > 0, 'Length should be greater than 0'
     assert mass > 0, 'Mass should be greater than 0'
-    #
+    # function
     my_stack =''
     my_tags = []
     my_volume = width * height * length
-    # bulky
+    # bulky logic
     if my_volume > 1000000 or width >= 150 or height >= 150 or length >= 150:
         my_tags.append('bulky')
+    # heavy logic
     if mass > 20:
         my_tags.append('heavy')
+    # stack logic
     if len(my_tags) == 0:
         my_stack = 'STANDARD'
     elif len(my_tags) == 1:
@@ -20,6 +23,8 @@ def sort(width, height, length, mass):
     elif len(my_tags) == 2:
         my_stack = 'REJECTED'
     return my_stack
+
+## TESTS ##
 
 #my_test1
 print(sort(100, 100, 100, 19))
