@@ -1,4 +1,10 @@
 def sort(width, height, length, mass):
+    # Unit Tests
+    assert width > 0 , 'Width should be greater than 0'
+    assert height > 0, 'Height should be greater than 0'
+    assert length > 0, 'Length should be greater than 0'
+    assert mass > 0, 'Mass should be greater than 0'
+    #
     my_stack =''
     my_tags = []
     my_volume = width * height * length
@@ -29,3 +35,8 @@ print(sort(100, 100, 100, 25))
 
 #my_test5
 print(sort(10000, 100000, 100000, 1000))
+
+# Edge Cases
+
+#my_test5
+print(sort(0, 100, 100, 100))
